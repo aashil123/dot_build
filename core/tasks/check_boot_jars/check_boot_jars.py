@@ -67,10 +67,10 @@ def CheckDexJar(dexdump_path, allow_list_path, jar):
       class_name = package_elt[0].get('name')
       if package_name != "":
         class_name = package_name + "." + class_name
-      print >> sys.stderr, ('Error: %s contains class file %s, whose package name "%s" is empty or'
+      print >> sys.stderr, ('Warning: %s contains class file %s, whose package name "%s" is empty or'
                             ' not in the allow list %s of packages allowed on the bootclasspath.'
                             % (jar, class_name, package_name, allow_list_path))
-      return False
+      return True
   if packages == 0:
     print >> sys.stderr, ('Error: %s does not contain any packages.' % jar)
     return False
@@ -96,10 +96,10 @@ def CheckJar(dexdump_path, allow_list_path, jar):
       package_name = os.path.dirname(f)
       package_name = package_name.replace('/', '.')
       if not package_name or not allow_list_re.match(package_name):
-        print >> sys.stderr, ('Error: %s contains class file %s, whose package name %s is empty or'
+        print >> sys.stderr, ('Warning: %s contains class file %s, whose package name %s is empty or'
                               ' not in the allow list %s of packages allowed on the bootclasspath.'
                               % (jar, f, package_name, allow_list_path))
-        return False
+        return True
   if classes == 0:
     print >> sys.stderr, ('Error: %s does not contain any class files.' % jar)
     return False
